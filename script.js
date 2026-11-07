@@ -7,6 +7,28 @@ const daysEl = document.getElementById("days");
 const hoursEl = document.getElementById("hours");
 const minutesEl = document.getElementById("minutes");
 const secondsEl = document.getElementById("seconds");
+const themeToggle = document.getElementById("theme-toggle");
+const themeStorageKey = "plutohacks-theme";
+
+function setTheme(theme) {
+  const isLight = theme === "light";
+  document.documentElement.dataset.theme = isLight ? "light" : "dark";
+  themeToggle.textContent = isLight ? "Dark theme" : "Light theme";
+  themeToggle.setAttribute(
+    "aria-label",
+    `Switch to ${isLight ? "dark" : "light"} theme`
+  );
+}
+
+const savedTheme = localStorage.getItem(themeStorageKey);
+setTheme(savedTheme === "light" ? "light" : "dark");
+
+themeToggle.addEventListener("click", () => {
+  const nextTheme =
+    document.documentElement.dataset.theme === "light" ? "dark" : "light";
+  setTheme(nextTheme);
+  localStorage.setItem(themeStorageKey, nextTheme);
+});
 
 let timerId = null;
 
