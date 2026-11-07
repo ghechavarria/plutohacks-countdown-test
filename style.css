@@ -66,12 +66,24 @@ h1 {
   letter-spacing: 0.04em;
 }
 
+h1.final-message {
+  margin-bottom: 0;
+  font-size: clamp(2.4rem, 4vw, 5rem);
+  line-height: 1.2;
+  max-width: 900px;
+  margin-inline: auto;
+}
+
 .countdown {
   display: grid;
   grid-template-columns: repeat(4, minmax(120px, 1fr));
   gap: 1.5rem;
   width: min(100%, 820px);
   margin: 0 auto;
+}
+
+.countdown.hidden {
+  display: none;
 }
 
 .time-box {

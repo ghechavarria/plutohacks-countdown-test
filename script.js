@@ -2,10 +2,13 @@ const startDate = new Date("2026-11-06T19:00:00");
 const endDate = new Date("2026-11-07T18:00:00");
 
 const heading = document.getElementById("countdown-heading");
+const countdownEl = document.querySelector(".countdown");
 const daysEl = document.getElementById("days");
 const hoursEl = document.getElementById("hours");
 const minutesEl = document.getElementById("minutes");
 const secondsEl = document.getElementById("seconds");
+
+let timerId = null;
 
 function getTimeRemaining(targetDate) {
   const total = Math.max(Date.parse(targetDate) - Date.now(), 0);
@@ -18,11 +21,21 @@ function getTimeRemaining(targetDate) {
   return { total, days, hours, minutes, seconds };
 }
 
+function showFinalState() {
+  clearInterval(timerId);
+  countdownEl.classList.add("hidden");
+  heading.textContent = "Hacking is over! Submit your project";
+  heading.classList.add("final-message");
+}
+
 function updateCountdown() {
   const now = new Date();
 
   if (now < startDate) {
     heading.textContent = "Hacking starts in";
+    heading.classList.remove("final-message");
+    countdownEl.classList.remove("hidden");
+
     const remaining = getTimeRemaining(startDate);
     daysEl.textContent = String(remaining.days).padStart(2, "0");
     hoursEl.textContent = String(remaining.hours).padStart(2, "0");
@@ -33,6 +46,9 @@ function updateCountdown() {
 
   if (now < endDate) {
     heading.textContent = "Hacking ends in";
+    heading.classList.remove("final-message");
+    countdownEl.classList.remove("hidden");
+
     const remaining = getTimeRemaining(endDate);
     daysEl.textContent = String(remaining.days).padStart(2, "0");
     hoursEl.textContent = String(remaining.hours).padStart(2, "0");
@@ -41,12 +57,8 @@ function updateCountdown() {
     return;
   }
 
-  heading.textContent = "Hacking is underway";
-  daysEl.textContent = "00";
-  hoursEl.textContent = "00";
-  minutesEl.textContent = "00";
-  secondsEl.textContent = "00";
+  showFinalState();
 }
 
 updateCountdown();
-setInterval(updateCountdown, 1000);
+timerId = setInterval(updateCountdown, 1000);
